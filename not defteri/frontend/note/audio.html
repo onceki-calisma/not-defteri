@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Ses Notu</title>
+  <style>
+    :root { --bg: #fff; --text: #000; --border: #e5e7eb; }
+    body { font-family: system-ui; background: var(--bg); color: var(--text); margin: 0; }
+    .header { padding: 16px 24px; border-bottom: 1px solid var(--border); }
+    .note-title { font-size: 24px; width: 100%; outline: none; border: none; }
+    .audio-container { padding: 24px; }
+    .audio-player { width: 100%; max-width: 600px; }
+    .transcript { margin-top: 24px; }
+    .transcript textarea { width: 100%; height: 200px; font-family: monospace; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="note-title" contenteditable="true">Başlıksız Ses Notu</div>
+  </div>
+  <div class="audio-container">
+    <audio class="audio-player" controls>
+      <source src="" type="audio/mpeg">
+      Tarayıcınız sesi desteklemiyor.
+    </audio>
+    <div class="transcript">
+      <textarea id="transcript" placeholder="Transkripsiyon veya notlar..."></textarea>
+    </div>
+    <!-- header içine -->
+    <button id="publicBtn" style="margin-left: auto; padding: 6px 12px; background: #e5e7eb; border: none; border-radius: 4px; cursor: pointer;">
+     🌍 Açık Kayıt
+    </button>
+  </div>
+
+  <script type="module">
+    const urlParams = new URLSearchParams(window.location.search);
+    const noteId = urlParams.get('id');
+    if (!noteId) { window.location.href = '../index.html'; }
+
+    const API_BASE = 'http://127.0.0.1:5000';
+
+    async function loadNote() {
+      const res = await fetch(`${API_BASE}/notes/${noteId}`);
+      const note = await res.json();
+      document.querySelector('.note-title').textContent = note.title;
+      try {
+        const data = JSON.parse(note.content || '{}');
+        const audio = document.querySelector('.audio-player');
+        if (data.audio_file) {
+          audio.src = data.audio_file;
+          audio.load();
+        }
+        document.getElementById('transcript').value = data.transcript || '';
+      } catch (e) {
+        console.error('Ses verisi yüklenemedi');
+      }
+    }
+
+    async function saveNote() {
+      const title = document.querySelector('.note-title').textContent;
+      const audioSrc = document.querySelector('.audio-player').src;
+      const transcript = document.getElementById('transcript').value;
+      const content = JSON.stringify({ audio_file: audioSrc, transcript });
+      await fetch(`${API_BASE}/notes/${noteId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, content })
+      });
+    }
+
+    let saveTimeout;
+    const debouncedSave = () => {
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(save, 1000);
+    };
+
+    document.getElementById('transcript').addEventListener('input', debouncedSave);
+    document.querySelector('.note-title').addEventListener('input', debouncedSave);
+
+    loadNote();
+  </script>
+</body>
+</html>

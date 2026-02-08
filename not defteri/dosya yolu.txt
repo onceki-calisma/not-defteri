@@ -1,0 +1,26 @@
+dosya yolu
+
+notdefteri/
+├── core/                     # 📓 Çekirdek motor
+│   ├── __init__.py
+│   ├── note.py               # Not sınıfı
+│   ├── storage.py            # localStorage benzeri (JSON dosya tabanlı)
+│   └── engine.py             # Ana motor
+│
+├── page_types/               # 📄 Sayfa türleri (senin istediğin gibi)
+│   ├── __init__.py
+│   ├── text.py               # 📝 Metin Notu
+│   ├── code.py               # 📓</> Kod Notu
+│   ├── task.py               # ✅ Görev Listesi
+│   ├── kanban.py             # 🗂️ Kanban Panosu
+│   ├── video.py              # 🎥 Video Notu
+│   ├── audio.py              # 🎙️ Ses Notu
+│   ├── mindmap.py            # 🧠 Zihin Haritası
+│   └── diagram.py            # 📐 Şema / Akış Çizimi
+│
+├── frontend/                 # (İsteğe bağlı) HTML/CSS/JS
+│   ├── index.html
+│   ├── style.css
+│   └── script.js
+│
+└── main.py                   # Uygulama başlangıcı

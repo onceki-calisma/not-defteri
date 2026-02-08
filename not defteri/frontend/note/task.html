@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Görev Listesi</title>
+  <style>
+    :root { --bg: #fff; --text: #000; --border: #e5e7eb; }
+    body { font-family: system-ui; background: var(--bg); color: var(--text); margin: 0; }
+    .header { padding: 16px 24px; border-bottom: 1px solid var(--border); }
+    .note-title { font-size: 24px; width: 100%; outline: none; border: none; }
+    .task-container { padding: 24px; }
+    .task-item { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .task-item input[type="checkbox"] { width: 18px; height: 18px; }
+    .task-item span { flex: 1; min-height: 24px; outline: none; }
+    .btn-add { padding: 8px 16px; background: #2563eb; color: white; border: none; border-radius: 4px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="note-title" contenteditable="true">Başlıksız Görev Listesi</div>
+  </div>
+  <div class="task-container" id="taskContainer">
+    <!-- Görevler burada listelenecek -->
+  </div>
+  <div style="padding: 0 24px 24px;">
+    <button class="btn-add" id="addTaskBtn">+ Yeni Görev</button>
+  </div>
+
+  <script type="module">
+    const urlParams = new URLSearchParams(window.location.search);
+    const noteId = urlParams.get('id');
+    if (!noteId) { window.location.href = '../index.html'; }
+
+    const API_BASE = 'http://127.0.0.1:5000';
+    let tasks = [];
+
+    async function loadNote() {
+      const res = await fetch(`${API_BASE}/notes/${noteId}`);
+      const note = await res.json();
+      document.querySelector('.note-title').textContent = note.title;
+      try {
+        tasks = JSON.parse(note.content || '[]');
+      } catch (e) {
+        tasks = [];
+      }
+      renderTasks();
+    }
+
+    function renderTasks() {
+      const container = document.getElementById('taskContainer');
+      container.innerHTML = tasks.map((task, i) => `
+        <div class="task-item">
+          <input type="checkbox" ${task.completed ? 'checked' : ''} data-index="${i}">
+          <span contenteditable="true">${task.text || 'Görev'}</span>
+          <button class="btn-delete" data-index="${i}">🗑️</button>
+        </div>
+      `).join('');
+
+      // Etkileşimleri bağla
+      container.querySelectorAll('input[type="checkbox"]').forEach(input => {
+        input.addEventListener('change', (e) => {
+          const i = e.target.dataset.index;
+          tasks[i].completed = e.target.checked;
+          saveTasks();
+        });
+      });
+
+      container.querySelectorAll('.btn-delete').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const i = e.target.dataset.index;
+          tasks.splice(i, 1);
+          saveTasks();
+        });
+      });
+
+      container.querySelectorAll('span[contenteditable]').forEach(span => {
+        span.addEventListener('blur', (e) => {
+          const i = e.target.closest('.task-item').querySelector('input').dataset.index;
+          tasks[i].text = e.target.textContent;
+          saveTasks();
+        });
+      });
+    }
+
+    async function saveTasks() {
+      const title = document.querySelector('.note-title').textContent;
+      await fetch(`${API_BASE}/notes/${noteId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, content: JSON.stringify(tasks) })
+      });
+    }
+
+    document.getElementById('addTaskBtn').addEventListener('click', () => {
+      tasks.push({ text: 'Yeni görev', completed: false });
+      saveTasks();
+    });
+
+    loadNote();
+  </script>
+</body>
+</html>

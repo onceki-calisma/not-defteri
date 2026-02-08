@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Şema Çizimi</title>
+  <style>
+    #diagramCanvas { border: 1px solid #ddd; width: 100%; height: 80vh; }
+    .toolbar { padding: 16px; background: #f9fafb; }
+    .toolbar button { margin: 4px; padding: 6px 12px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="note-title" contenteditable="true">Başlıksız Şema</div>
+  </div>
+  <div class="toolbar">
+    <button data-shape="rect">▭ Dikdörtgen</button>
+    <button data-shape="ellipse">⬭ Elips</button>
+    <button data-shape="diamond">◇ Baklava</button>
+  </div>
+  <!-- header içine -->
+  <button id="publicBtn" style="margin-left: auto; padding: 6px 12px; background: #e5e7eb; border: none; border-radius: 4px; cursor: pointer;">
+    🌍 Açık Kayıt
+  </button>
+  <canvas id="diagramCanvas" width="1200" height="800"></canvas>
+
+  <script type="module">
+    const canvas = document.getElementById('diagramCanvas');
+    const ctx = canvas.getContext('2d');
+    let shapes = [];
+
+    document.querySelectorAll('.toolbar button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const shape = btn.dataset.shape;
+        shapes.push({ type: shape, x: 100, y: 100, text: 'İşlem' });
+        draw();
+      });
+    });
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      shapes.forEach(s => {
+        ctx.strokeStyle = '#000';
+        ctx.fillStyle = '#fff';
+        if (s.type === 'rect') {
+          ctx.fillRect(s.x, s.y, 120, 60);
+          ctx.strokeRect(s.x, s.y, 120, 60);
+        } else if (s.type === 'ellipse') {
+          ctx.beginPath();
+          ctx.ellipse(s.x + 60, s.y + 30, 60, 30, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+        } else if (s.type === 'diamond') {
+          ctx.beginPath();
+          ctx.moveTo(s.x + 60, s.y);
+          ctx.lineTo(s.x + 120, s.y + 30);
+          ctx.lineTo(s.x + 60, s.y + 60);
+          ctx.lineTo(s.x, s.y + 30);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+        }
+        ctx.fillStyle = '#000';
+        ctx.fillText(s.text, s.x + 10, s.y + 35);
+      });
+    }
+
+    draw();
+  </script>
+</body>
+</html>

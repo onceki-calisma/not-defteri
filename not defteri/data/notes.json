@@ -1,0 +1,22 @@
+[
+  {
+    "id": "note-1",
+    "title": "Yeni text notu",
+    "content": "Buraya yazmaya başlayın...",
+    "type": "text",
+    "tags": [],
+    "locked": false,
+    "created_at": "2025-10-13T22:17:36.826333",
+    "updated_at": "2025-10-13T22:17:36.826333"
+  },
+  {
+    "id": "note-2",
+    "title": "Yeni mindmap notu",
+    "content": "{\"root\": \"Ana Fikir\", \"children\": [{\"text\": \"Dal 1\", \"children\": []}, {\"text\": \"Dal 2\", \"children\": []}]}",
+    "type": "mindmap",
+    "tags": [],
+    "locked": false,
+    "created_at": "2025-10-13T22:30:33.869342",
+    "updated_at": "2025-10-13T22:30:33.869342"
+  }
+]

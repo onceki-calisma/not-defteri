@@ -1,0 +1,22 @@
+/* frontend/style/task.css */
+.task-container {
+  padding: 24px;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.task-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+.task-item span {
+  flex: 1;
+  min-height: 24px;
+  outline: none;
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Zihin Haritası</title>
+  <style>
+    canvas { border: 1px solid #ddd; width: 100%; height: 80vh; }
+    .controls { padding: 16px; }
+    button { margin: 4px; padding: 6px 12px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="note-title" contenteditable="true">Başlıksız Zihin Haritası</div>
+  </div>
+  <canvas id="mindmapCanvas" width="1200" height="800"></canvas>
+  <div class="controls">
+    <button id="addNode">+ Dal Ekle</button>
+    <button id="saveMap">💾 Kaydet</button>
+  </div>
+
+  <script type="module">
+    // Basit zihin haritası motoru
+    const canvas = document.getElementById('mindmapCanvas');
+    const ctx = canvas.getContext('2d');
+    let nodes = [{ id: 'root', text: 'Ana Fikir', x: 600, y: 400, children: [] }];
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // Basit çizim (gerçek uygulamada D3.js veya mxGraph kullanılır)
+      nodes.forEach(node => {
+        ctx.fillStyle = '#2563eb';
+        ctx.fillRect(node.x - 50, node.y - 15, 100, 30);
+        ctx.fillStyle = 'white';
+        ctx.fillText(node.text, node.x - 45, node.y + 5);
+      });
+    }
+
+    document.getElementById('addNode').addEventListener('click', () => {
+      nodes.push({ id: Date.now(), text: 'Yeni Dal', x: 300, y: 200 });
+      draw();
+    });
+
+    // Kaydet
+    document.getElementById('saveMap').addEventListener('click', async () => {
+      const noteId = new URLSearchParams(window.location.search).get('id');
+      const title = document.querySelector('.note-title').textContent;
+      const content = JSON.stringify(nodes);
+      await fetch(`http://127.0.0.1:5000/notes/${noteId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, content })
+      });
+    });
+
+    draw();
+  </script>
+</body>
+</html>

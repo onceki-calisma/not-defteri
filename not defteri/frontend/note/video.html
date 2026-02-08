@@ -1,0 +1,21 @@
+<div class="timestamps">
+  <h3>Zaman Damgalı Notlar</h3>
+  <div id="timestampList"></div>
+  <button id="addTimestamp">+ Şu Anki Zamanı Ekle</button>
+</div>
+
+<script>
+// Video oynatıcı referansı
+const video = document.querySelector('.video-player');
+
+document.getElementById('addTimestamp').addEventListener('click', () => {
+  const time = video.currentTime; // saniye cinsinden
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60);
+  const timeStr = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+  // Yeni zaman damgası ekle (API'ye kaydedilecek)
+  timestamps.push({ time: timeStr, note: 'Not yazın...' });
+  saveTimestamps();
+});
+</script>

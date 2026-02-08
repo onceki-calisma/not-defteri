@@ -1,0 +1,83 @@
+[
+  {
+    "id": "note-1",
+    "title": "Başlıksız Not",
+    "content": "Buraya yazmaya başlayın...",
+    "type": "text",
+    "tags": [],
+    "created_at": "2025-10-13T18:51:07.491880",
+    "updated_at": "2025-10-13T18:51:07.491880"
+  },
+  {
+    "id": "note-2",
+    "title": "Yeni Metin Notu",
+    "content": "Buraya yazmaya başlayın...",
+    "type": "text",
+    "tags": [],
+    "created_at": "2025-10-13T18:51:07.492036",
+    "updated_at": "2025-10-13T18:51:07.492036"
+  },
+  {
+    "id": "note-3",
+    "title": "Yeni Kod Notu",
+    "content": "# Kodunuzu buraya yazın",
+    "type": "code",
+    "tags": [],
+    "created_at": "2025-10-13T18:51:07.492235",
+    "updated_at": "2025-10-13T18:51:07.492235"
+  },
+  {
+    "id": "note-4",
+    "title": "Yeni Görev Listesi",
+    "content": "[]",
+    "type": "task",
+    "tags": [],
+    "created_at": "2025-10-13T18:51:07.492385",
+    "updated_at": "2025-10-13T18:51:07.492385"
+  },
+  {
+    "id": "note-5",
+    "title": "Yeni Kanban Panosu",
+    "content": "{\"columns\": [\"Yapılacak\", \"Devam Ediyor\", \"Tamamlandı\"], \"cards\": []}",
+    "type": "kanban",
+    "tags": [],
+    "created_at": "2025-10-13T18:51:07.492593",
+    "updated_at": "2025-10-13T18:51:07.492593"
+  },
+  {
+    "id": "note-6",
+    "title": "Yeni Video Notu",
+    "content": "{\"video_url\": \"\", \"transcript\": \"\", \"bookmarks\": []}",
+    "type": "video",
+    "tags": [],
+    "created_at": "2025-10-13T18:51:07.492820",
+    "updated_at": "2025-10-13T18:51:07.492820"
+  },
+  {
+    "id": "note-7",
+    "title": "Yeni Ses Notu",
+    "content": "{\"audio_file\": \"\", \"transcript\": \"\", \"timestamps\": []}",
+    "type": "audio",
+    "tags": [],
+    "created_at": "2025-10-13T18:51:07.493017",
+    "updated_at": "2025-10-13T18:51:07.493017"
+  },
+  {
+    "id": "note-8",
+    "title": "Yeni Zihin Haritası",
+    "content": "{\"root\": \"Ana Fikir\", \"children\": [{\"text\": \"Dal 1\", \"children\": []}, {\"text\": \"Dal 2\", \"children\": []}]}",
+    "type": "mindmap",
+    "tags": [],
+    "created_at": "2025-10-13T18:51:07.493219",
+    "updated_at": "2025-10-13T18:51:07.493219"
+  },
+  {
+    "id": "note-9",
+    "title": "Yeni Şema / Akış Çizimi",
+    "content": "{\"nodes\": [{\"id\": \"1\", \"type\": \"start\", \"text\": \"Başla\", \"x\": 100, \"y\": 100}, {\"id\": \"2\", \"type\": \"process\", \"text\": \"İşlem\", \"x\": 100, \"y\": 200}], \"edges\": [{\"from\": \"1\", \"to\": \"2\"}]}",
+    "type": "diagram",
+    "tags": [],
+    "created_at": "2025-10-13T18:51:07.493422",
+    "updated_at": "2025-10-13T18:51:07.493422"
+  }
+]
